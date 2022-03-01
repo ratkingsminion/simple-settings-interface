@@ -6,9 +6,9 @@ Usage:
 ```C#
   [RequireComponent(typeof(Camera))]
   public class ConfigurableFieldOfView : MonoBehaviour {
-
+  
     void Start() {
-      // requires Setting assets with the IDs "CAM FOV" and "CAM COLOR" in the project!
+      // requires Setting assets with the IDs "CAM FOV" and "CAM COLOR" inside Resources/Settings!
       SSI.Settings.AddListener("CAM FOV", OnCamFovChanged);
       SSI.Settings.AddListener("CAM COLOR", OnCamColorChanged);
     }
@@ -25,5 +25,6 @@ Usage:
     void OnCamColorChanged(SSI.Setting setting) {
       Camera.main.backgroundColor = setting.Get<bool>() ? Color.green : Color.black;
     }
+	
   }
 ```

@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace RatKing.SSI {
-
+	
+	[ExecuteInEditMode]
 	public class UiSetting_Dropdown : UiSetting {
 		[SerializeField] TMPro.TMP_Dropdown uiDropdown;
 
@@ -24,6 +25,17 @@ namespace RatKing.SSI {
 				uiDropdown.onValueChanged?.Invoke(v);
 			}
 		}
+
+#if UNITY_EDITOR
+		void Update() {
+			if (!Application.isPlaying) {
+				if (uiLabel != null) {
+					if (setting != null) { uiLabel.text = setting.ID; }
+					else { uiLabel.text = "Missing Setting definition"; }
+				}
+			}
+		}
+#endif
 
 		//
 

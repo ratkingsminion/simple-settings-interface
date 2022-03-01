@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 namespace RatKing.SSI {
 
+	[ExecuteInEditMode]
 	public class UiSetting_Slider : UiSetting {
 		[SerializeField] Slider uiSlider;
 
@@ -25,6 +26,17 @@ namespace RatKing.SSI {
 				uiSlider.onValueChanged?.Invoke(v);
 			}
 		}
+
+#if UNITY_EDITOR
+		void Update() {
+			if (!Application.isPlaying) {
+				if (uiLabel != null) {
+					if (setting != null) { uiLabel.text = setting.ID; }
+					else { uiLabel.text = "Missing Setting definition"; }
+				}
+			}
+		}
+#endif
 
 		//
 

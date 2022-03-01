@@ -5,6 +5,8 @@ namespace RatKing.SSI {
 
 	public class Settings {
 
+		const string settingsFolderInResources = "Settings"; // change this if you put your settings in some other folder
+
 		static readonly Dictionary<string, Setting> byID = new Dictionary<string, Setting>();
 
 		//
@@ -12,7 +14,7 @@ namespace RatKing.SSI {
 		[RuntimeInitializeOnLoadMethod(loadType: RuntimeInitializeLoadType.AfterSceneLoad)]
 		static void OnApplicationStart() {
 			byID.Clear();
-			foreach (var s in Resources.LoadAll<Setting>("Settings")) { // prepare the settings
+			foreach (var s in Resources.LoadAll<Setting>(settingsFolderInResources)) { // prepare the settings
 				s.Load();
 				byID[s.ID.ToUpper()] = s;
 			}
@@ -22,7 +24,7 @@ namespace RatKing.SSI {
 
 		public static void AddListener(string ID, System.Action<Setting> onChange) {
 			if (onChange == null) { return; }
-			if (!byID.TryGetValue(ID.ToUpper(), out var setting)) { Debug.LogError("Setting " + ID + " not found!"); return; }
+			if (!byID.TryGetValue(ID.ToUpper(), out var setting)) { Debug.LogError("Setting " + ID + " not found! Did you really put them into Resources/" + settingsFolderInResources + "?"); return; }
 			setting.OnChange += onChange;
 			onChange.Invoke(setting);
 		}
@@ -35,7 +37,7 @@ namespace RatKing.SSI {
 
 		public static void RemoveListener(string ID, System.Action<Setting> onChange) {
 			if (byID == null) { return; }
-			if (!byID.TryGetValue(ID.ToUpper(), out var setting)) { Debug.LogError("Setting " + ID + " not found!"); return; }
+			if (!byID.TryGetValue(ID.ToUpper(), out var setting)) { Debug.LogError("Setting " + ID + " not found! Did you really put them into Resources/" + settingsFolderInResources + "?"); return; }
 			setting.OnChange -= onChange;
 		}
 
@@ -49,7 +51,7 @@ namespace RatKing.SSI {
 		public static void ToggleBool(string id) {
 #if UNITY_EDITOR
 			if (byID == null) { Debug.LogError("Can't get settings before initialisation!"); return; }
-			if (!byID.ContainsKey(id)) { Debug.LogError("Setting " + id + " does not exist!"); return; }
+			if (!byID.ContainsKey(id)) { Debug.LogError("Setting " + id + " does not exist! Did you really put them into Resources/" + settingsFolderInResources + "?"); return; }
 #endif
 			byID[id].SetValue(!byID[id].Get<bool>());
 		}
@@ -57,7 +59,7 @@ namespace RatKing.SSI {
 		public static float GetNumber(string id) {
 #if UNITY_EDITOR
 			if (byID == null) { Debug.LogError("Can't get settings before initialisation!"); return -1f; }
-			if (!byID.ContainsKey(id)) { Debug.LogError("Setting " + id + " does not exist!"); return -1f; }
+			if (!byID.ContainsKey(id)) { Debug.LogError("Setting " + id + " does not exist! Did you really put them into Resources/" + settingsFolderInResources + "?"); return -1f; }
 #endif
 			return byID[id].GetNumber();
 		}
@@ -65,7 +67,7 @@ namespace RatKing.SSI {
 		public static T Get<T>(string id) {
 #if UNITY_EDITOR
 			if (byID == null) { Debug.LogError("Can't get settings before initialisation!"); return default; }
-			if (!byID.ContainsKey(id)) { Debug.LogError("Setting " + id + " does not exist!"); return default; }
+			if (!byID.ContainsKey(id)) { Debug.LogError("Setting " + id + " does not exist! Did you really put them into Resources/" + settingsFolderInResources + "?"); return default; }
 #endif
 			return byID[id].Get<T>();
 		}
@@ -73,7 +75,7 @@ namespace RatKing.SSI {
 		public static void Set<T>(string id, T value) {
 #if UNITY_EDITOR
 			if (byID == null) { Debug.LogError("Can't get settings before initialisation!"); return; }
-			if (!byID.ContainsKey(id)) { Debug.LogError("Setting " + id + " does not exist!"); return; }
+			if (!byID.ContainsKey(id)) { Debug.LogError("Setting " + id + " does not exist! Did you really put them into Resources/" + settingsFolderInResources + "?"); return; }
 #endif
 			byID[id].SetValue(value);
 			
