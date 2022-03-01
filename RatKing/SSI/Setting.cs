@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RatKing {
+namespace RatKing.SSI {
 	
 	[CreateAssetMenu(fileName="Setting", menuName="Rat King/New Setting")]
 	public class Setting : ScriptableObject {

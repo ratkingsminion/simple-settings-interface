@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace RatKing {
+namespace RatKing.SSI {
 
 	public abstract class UiSetting : MonoBehaviour {
 		[SerializeField] protected Setting setting = null;

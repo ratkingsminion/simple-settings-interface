@@ -9,14 +9,14 @@ Usage (Unity):
 
     void Start() {
       // requires a Setting asset with the ID "CAM FOV" in the project!
-      Settings.AddListener("CAM FOV", OnCamFovChanged);
+      SSI.Settings.AddListener("CAM FOV", OnCamFovChanged);
     }
     
     void OnDestroy() {
-      Settings.RemoveListener("CAM FOV", OnCamFovChanged);
+      SSI.Settings.RemoveListener("CAM FOV", OnCamFovChanged);
     }
     
-    void OnCamFovChanged(Setting setting) {
+    void OnCamFovChanged(SSI.Setting setting) {
       fov = setting.GetNumber();
       GetComponent<Camera>().fieldOfView = setting.GetNumber();
     }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RatKing {
+namespace RatKing.SSI {
 
 	public class UiSetting_Toggle : UiSetting {
 		[SerializeField] Toggle uiToggle;
