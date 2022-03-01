@@ -1,25 +1,30 @@
 # ssi
 Simple settings interface for creating configurable options in Unity/C# games
 
-Usage (Unity):
+Usage:
 
 ```C#
   [RequireComponent(typeof(Camera))]
   public class ConfigurableFieldOfView : MonoBehaviour {
 
     void Start() {
-      // requires a Setting asset with the ID "CAM FOV" in the project!
+      // requires Setting assets with the IDs "CAM FOV" and "CAM COLOR" in the project!
       SSI.Settings.AddListener("CAM FOV", OnCamFovChanged);
+      SSI.Settings.AddListener("CAM COLOR", OnCamColorChanged);
     }
     
     void OnDestroy() {
       SSI.Settings.RemoveListener("CAM FOV", OnCamFovChanged);
+      SSI.Settings.RemoveListener("CAM COLOR", OnCamColorChanged);
     }
     
     void OnCamFovChanged(SSI.Setting setting) {
       fov = setting.GetNumber();
       GetComponent<Camera>().fieldOfView = setting.GetNumber();
     }
-	
+    
+    void OnCamColorChanged(SSI.Setting setting) {
+      Camera.main.backgroundColor = setting.Get<bool>() ? Color.green : Color.black;
+    }
   }
 ```
