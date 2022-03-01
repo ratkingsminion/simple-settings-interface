@@ -19,7 +19,6 @@ Usage:
     }
     
     void OnCamFovChanged(SSI.Setting setting) {
-      fov = setting.GetNumber();
       GetComponent<Camera>().fieldOfView = setting.GetNumber();
     }
     
