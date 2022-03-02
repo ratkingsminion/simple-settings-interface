@@ -28,3 +28,5 @@ Usage:
 	
   }
 ```
+
+OnCamFovChanged() and OnCamColorChanged() get automatically called on Start and also anytime the settings CAM FOV and CAM COLOR get changed from the outside (for example via UiSetting_Slider and UiSetting_Toggle).
