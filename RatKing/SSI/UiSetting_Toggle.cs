@@ -15,6 +15,9 @@ namespace RatKing.SSI {
 		//
 
 		protected override void Start() {
+#if UNITY_EDITOR
+			if (!Application.isPlaying) { return; }
+#endif
 			base.Start();
 			if (setting != null) {
 				uiToggle.onValueChanged.AddListener(v => {
