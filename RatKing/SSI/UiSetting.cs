@@ -19,14 +19,14 @@ namespace RatKing.SSI {
 		protected virtual void Start() {
 			Settings.AddListener(setting, OnChange);
 #if USE_LOCALISATION
-			Base.Localisation.LANGUAGE_CHANGED.Register(ChangeLabel);
+			SLH.Localisation.OnLanguageChanged += ChangeLabel;
 #endif
 		}
 
 		protected virtual void OnDestroy() {
 			Settings.RemoveListener(setting, OnChange);
 #if USE_LOCALISATION
-			Base.Localisation.LANGUAGE_CHANGED.Unregister(ChangeLabel);
+			SLH.Localisation.OnLanguageChanged -= ChangeLabel;
 #endif
 		}
 
@@ -34,7 +34,7 @@ namespace RatKing.SSI {
 
 		protected virtual void ChangeLabel() {
 #if USE_LOCALISATION
-			uiLabel.text = Base.Localisation.Do("settings/" + setting.LabelText);
+			uiLabel.text = SLH.Localisation.Do("settings/" + setting.LabelText);
 #else
 			uiLabel.text = setting.LabelText;
 #endif
