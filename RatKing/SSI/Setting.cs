@@ -12,10 +12,11 @@ namespace RatKing.SSI {
 		//
 		public System.Action<Setting> OnChange { get; set; }
 		//
-		Base.DynamicVariable CurValue;
+		Base.DynamicVariable CurValue = new Base.DynamicVariable();
 
 		public void Reset() {
 			if (defaultValue != null) { CurValue = defaultValue.GetCopy(); }
+			else if (CurValue != null) { CurValue.Clear(); }
 			else { CurValue = new Base.DynamicVariable(); }
 			OnChange = null;
 		}
