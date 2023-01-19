@@ -20,6 +20,7 @@ namespace RatKing.SSI {
 #endif
 			base.Start();
 			if (setting != null) {
+				ChangeLabel();
 				uiDropdown.onValueChanged.AddListener(v => {
 					setting.SetValue(v);
 				});

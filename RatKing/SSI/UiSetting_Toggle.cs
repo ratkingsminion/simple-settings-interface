@@ -20,6 +20,7 @@ namespace RatKing.SSI {
 #endif
 			base.Start();
 			if (setting != null) {
+				ChangeLabel();
 				uiToggle.onValueChanged.AddListener(v => {
 					setting.SetValue(v);
 				});
