@@ -5,12 +5,14 @@ namespace RatKing.SSI {
 
 	[ExecuteInEditMode]
 	public class UiSetting_Slider : UiSetting {
-		[SerializeField] Slider uiSlider;
-
+		[SerializeField] Slider uiSlider = null;
+		
+#if UNITY_EDITOR
 		protected override void OnValidate() {
 			base.OnValidate();
 			if (uiSlider == null) { uiSlider = GetComponentInChildren<Slider>(); }
 		}
+#endif
 
 		//
 
@@ -21,7 +23,8 @@ namespace RatKing.SSI {
 			base.Start();
 			if (setting != null) {
 				uiSlider.onValueChanged.AddListener(v => {
-					setting.SetValue(v);
+					if (uiSlider.wholeNumbers) { setting.SetValue((int)v); }
+					else { setting.SetValue(v); }
 					ChangeLabel();
 				});
 				var v = setting.GetNumber();
@@ -29,17 +32,6 @@ namespace RatKing.SSI {
 				uiSlider.onValueChanged?.Invoke(v);
 			}
 		}
-
-#if UNITY_EDITOR
-		void Update() {
-			if (!Application.isPlaying) {
-				if (uiLabel != null) {
-					if (setting != null) { uiLabel.text = setting.ID; }
-					else { uiLabel.text = "Missing Setting definition"; }
-				}
-			}
-		}
-#endif
 
 		//
 
@@ -52,7 +44,7 @@ namespace RatKing.SSI {
 
 		protected override void OnChange(Setting setting) {
 			//Debug.Log("Slider " + name + " gets changed");
-			uiSlider.value = setting.Get(0f);
+			 uiSlider.value = uiSlider.wholeNumbers ? setting.Get(0) : setting.Get(0f);
 		}
 	}
 

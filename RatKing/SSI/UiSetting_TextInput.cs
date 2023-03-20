@@ -3,13 +3,13 @@ using UnityEngine;
 namespace RatKing.SSI {
 	
 	[ExecuteInEditMode]
-	public class UiSetting_Dropdown : UiSetting {
-		[SerializeField] TMPro.TMP_Dropdown uiDropdown = null;
+	public class UiSetting_TextInput : UiSetting {
+		[SerializeField] TMPro.TMP_InputField uiInputField = null;
 
 #if UNITY_EDITOR
 		protected override void OnValidate() {
 			base.OnValidate();
-			if (uiDropdown == null) { uiDropdown = GetComponentInChildren<TMPro.TMP_Dropdown>(); }
+			if (uiInputField == null) { uiInputField = GetComponentInChildren<TMPro.TMP_InputField>(); }
 		}
 #endif
 
@@ -22,19 +22,19 @@ namespace RatKing.SSI {
 			base.Start();
 			if (setting != null) {
 				ChangeLabel();
-				uiDropdown.onValueChanged.AddListener(v => {
+				uiInputField.onValueChanged.AddListener(v => {
 					setting.SetValue(v);
 				});
-				var v = (int)setting.GetNumber();
-				uiDropdown.value = v;
-				uiDropdown.onValueChanged?.Invoke(v);
+				var v = setting.Get("");
+				uiInputField.text = v;
+				uiInputField.onValueChanged?.Invoke(v);
 			}
 		}
 
 		//
 
 		protected override void OnChange(Setting setting) {
-			uiDropdown.value = (int)setting.GetNumber();
+			uiInputField.text = setting.Get("");
 		}
 	}
 

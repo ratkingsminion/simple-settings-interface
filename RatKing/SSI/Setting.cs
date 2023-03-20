@@ -8,16 +8,16 @@ namespace RatKing.SSI {
 		public string ID => id;
 		[SerializeField] string labelText = default;
 		public string LabelText => labelText;
-		[SerializeField] Base.DynamicVariable defaultValue;
+		[SerializeField] Base.DynamicVariable defaultValue = default;
 		//
 		public System.Action<Setting> OnChange { get; set; }
 		//
-		Base.DynamicVariable CurValue = new Base.DynamicVariable();
+		Base.DynamicVariable CurValue = new();
 
 		public void Reset() {
 			if (defaultValue != null) { CurValue = defaultValue.GetCopy(); }
 			else if (CurValue != null) { CurValue.Clear(); }
-			else { CurValue = new Base.DynamicVariable(); }
+			else { CurValue = new(); }
 			OnChange = null;
 		}
 

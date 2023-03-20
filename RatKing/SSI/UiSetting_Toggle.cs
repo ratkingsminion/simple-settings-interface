@@ -5,12 +5,14 @@ namespace RatKing.SSI {
 	
 	[ExecuteInEditMode]
 	public class UiSetting_Toggle : UiSetting {
-		[SerializeField] Toggle uiToggle;
-
+		[SerializeField] Toggle uiToggle = null;
+		
+#if UNITY_EDITOR
 		protected override void OnValidate() {
 			base.OnValidate();
 			if (uiToggle == null) { uiToggle = GetComponentInChildren<Toggle>(); }
 		}
+#endif
 
 		//
 
@@ -29,17 +31,6 @@ namespace RatKing.SSI {
 				uiToggle.onValueChanged?.Invoke(v);
 			}
 		}
-
-#if UNITY_EDITOR
-		void Update() {
-			if (!Application.isPlaying) {
-				if (uiLabel != null) {
-					if (setting != null) { uiLabel.text = setting.ID; }
-					else { uiLabel.text = "Missing Setting definition"; }
-				}
-			}
-		}
-#endif
 
 		//
 

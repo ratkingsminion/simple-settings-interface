@@ -5,13 +5,13 @@ namespace RatKing.SSI {
 
 	public class Settings {
 
-		const string settingsFolderInResources = "Settings"; // change this if you put your settings in some other folder
+		const string settingsFolderInResources = "Settings"; // change this if you put your settings objects in some other folder
 
 		static readonly Dictionary<string, Setting> byID = new Dictionary<string, Setting>();
 
 		//
 
-		[RuntimeInitializeOnLoadMethod(loadType: RuntimeInitializeLoadType.AfterSceneLoad)]
+		[RuntimeInitializeOnLoadMethod(loadType: RuntimeInitializeLoadType.BeforeSceneLoad)]
 		static void OnApplicationStart() {
 			byID.Clear();
 			foreach (var s in Resources.LoadAll<Setting>(settingsFolderInResources)) { // prepare the settings
@@ -64,12 +64,17 @@ namespace RatKing.SSI {
 			return byID[id].GetNumber();
 		}
 
-		public static T Get<T>(string id) {
+		public static bool TryGet<T>(string id, out T value) {
+			if (byID == null || !byID.ContainsKey(id)) { value = default; return false; }
+			return byID[id].TryGet(out value);
+		}
+
+		public static T Get<T>(string id, T standard = default) {
 #if UNITY_EDITOR
 			if (byID == null) { Debug.LogError("Can't get settings before initialisation!"); return default; }
 			if (!byID.ContainsKey(id)) { Debug.LogError("Setting " + id + " does not exist! Did you really put them into Resources/" + settingsFolderInResources + "?"); return default; }
 #endif
-			return byID[id].Get<T>();
+			return byID[id].Get(standard);
 		}
 
 		public static void Set<T>(string id, T value) {

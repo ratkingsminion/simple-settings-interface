@@ -7,12 +7,14 @@ namespace RatKing.SSI {
 	public abstract class UiSetting : MonoBehaviour {
 		[SerializeField] protected Setting setting = null;
 		[SerializeField] protected TMPro.TextMeshProUGUI uiLabel = null;
-		//
+		
 		public string CurName { get; private set; } // translated
 
+#if UNITY_EDITOR
 		protected virtual void OnValidate() {
 			if (uiLabel == null) { uiLabel = GetComponentInChildren<TMPro.TextMeshProUGUI>(); }
 		}
+#endif
 
 		//
 
@@ -29,6 +31,15 @@ namespace RatKing.SSI {
 			SLH.Localisation.OnLanguageChanged -= ChangeLabel;
 #endif
 		}
+
+#if UNITY_EDITOR
+		void Update() {
+			if (!Application.isPlaying && uiLabel != null) {
+				if (setting != null) { uiLabel.text = setting.ID; }
+				else { uiLabel.text = "Missing Setting definition"; }
+			}
+		}
+#endif
 
 		//
 
