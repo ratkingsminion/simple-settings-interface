@@ -11,7 +11,7 @@ namespace RatKing.SSI {
 
 		//
 
-		[RuntimeInitializeOnLoadMethod(loadType: RuntimeInitializeLoadType.BeforeSceneLoad)]
+		[RuntimeInitializeOnLoadMethod(loadType: RuntimeInitializeLoadType.BeforeSplashScreen)]
 		static void OnApplicationStart() {
 			byID.Clear();
 			foreach (var s in Resources.LoadAll<Setting>(settingsFolderInResources)) { // prepare the settings
